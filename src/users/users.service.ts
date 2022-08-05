@@ -12,7 +12,11 @@ export class UsersService {
   ) {}
 
   async registerPlayer(RegisterPlayerDto: RegisterPlayerDto): Promise<User> {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const bcrypt = require('bcrypt');
     const newPlayer = new this.userModel(RegisterPlayerDto);
+    const hashed_password = bcrypt.hashSync(newPlayer.password, 10);
+    newPlayer.password = hashed_password;
     return await newPlayer.save();
   }
 
