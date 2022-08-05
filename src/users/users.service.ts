@@ -15,7 +15,7 @@ export class UsersService {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const bcrypt = require('bcrypt');
     const newPlayer = new this.userModel(RegisterPlayerDto);
-    const hashed_password = bcrypt.hashSync(newPlayer.password, 10);
+    const hashed_password = await bcrypt.hash(newPlayer.password, 10);
     newPlayer.password = hashed_password;
     return await newPlayer.save();
   }
