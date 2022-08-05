@@ -47,7 +47,11 @@ export class AuthService {
 
     try {
       const user = await this.usersService.findById(payload['id']);
-      return this.login(user);
+      if (user) {
+        return this.login(user);
+      } else {
+        return errorConstants.refreshError;
+      }
     } catch (err) {
       return errorConstants.refreshError;
     }
