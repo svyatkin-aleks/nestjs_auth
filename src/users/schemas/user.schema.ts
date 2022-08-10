@@ -5,7 +5,17 @@ import { Roles } from '../../auth/roles.enum';
 export type UserDocument = User & Document;
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true })
+  @Prop({
+    required: true,
+    unique: true,
+    lowercase: true,
+    validate: {
+      validator: function (value) {
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+      },
+      message: 'Please enter a valid email',
+    },
+  })
   email: string;
 
   @Prop()

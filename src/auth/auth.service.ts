@@ -10,9 +10,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOne(email);
-    if (user && user.password === pass) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const bcrypt = require('bcrypt');
+    if (user && bcrypt.compare(password, user.password)) {
       const { password, ...result } = user;
 
       return result;
@@ -45,7 +47,11 @@ export class AuthService {
 
     try {
       const user = await this.usersService.findById(payload['id']);
-      return this.login(user);
+      if (user) {
+        return this.login(user);
+      } else {
+        return errorConstants.refreshError;
+      }
     } catch (err) {
       return errorConstants.refreshError;
     }
