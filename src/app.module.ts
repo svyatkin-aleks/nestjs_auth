@@ -11,6 +11,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 // import { AuthMiddleware } from './core/middleware';
 import { JwtService } from '@nestjs/jwt';
+import { AppGateway } from './app.gateway';
+import { GameEventsGateway } from './game/game.gateway';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { JwtService } from '@nestjs/jwt';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JwtService],
+  providers: [AppService, JwtService, GameEventsGateway],
 })
 export class AppModule {}
 // export class AppModule implements NestModule {
